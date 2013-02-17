@@ -16,9 +16,9 @@ class FtpSocketTest extends CakeTestCase {
  * @var array
  */
 	protected $_config = array(
-		'host'		=> 'localhost',
-		'username'	=> 'user',
-		'password'	=> '1234',
+		'host'		=> 'ftp1.freebsd.org',
+		'username'	=> 'anonymous',
+		'password'	=> 'anonymous',
 	);
 
 /**
@@ -44,7 +44,7 @@ class FtpSocketTest extends CakeTestCase {
  */
 	public function testConfig() {
 		$result = count($this->Ftp->config);
-		$this->assertEquals(12, $result);
+		$this->assertEquals(11, $result);
 	}
 
 /**
@@ -60,7 +60,7 @@ class FtpSocketTest extends CakeTestCase {
  */
 	public function testLogin() {
 		$result = $this->Ftp->login()->responses;
-		$this->assertContains('logged in', current($result));
+		$this->assertContains('230', current($result));
 	}
 
 /**
@@ -70,5 +70,4 @@ class FtpSocketTest extends CakeTestCase {
 		$result = $this->Ftp->login()->list();
 		// TODO: Write me
 	}
-
 }

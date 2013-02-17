@@ -50,9 +50,9 @@ class FtpSourceTest extends CakeTestCase {
  */
 	public $defaultConfig = array(
 		'datasource' => 'Ftp.FtpSource',
-		'host' => 'localhost',
-		'username' => 'testuser',
-		'password' => '1234',
+		'host' => 'ftp1.freebsd.org',
+		'username' => 'anonymous',
+		'password' => 'anonymous',
 		'type' => 'ftp',
 		'port' => 21,
 		'cache' => false,
@@ -277,7 +277,7 @@ END
 		$this->assertEqual($result[0]['is_link'], '0');
 		$this->assertEqual($result[0]['size'], '4096');
 		$this->assertEqual($result[0]['chmod'], '750');
-		$this->assertEqual($result[0]['mtime'], '2012-07-12 12:16:00');
+		$this->assertEqual($result[0]['mtime'], date('Y') . '-07-12 12:16:00');
 		$this->assertEqual($result[0]['raw'], 'drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp');
 
 		// FILENAME WITH SPACES IN IT?
@@ -285,5 +285,4 @@ END
 
 		// TODO: TRY TO REALLY BREAK THIS
 	}
-
 }
