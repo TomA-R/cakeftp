@@ -59,7 +59,6 @@ class ClientController extends FtpAppController {
  * @param string $path
  */
 	public function index($path = null) {
-		$connected = false;
 		if (isset($path)) {
 			$path = base64_decode(urldecode($path));
 		}

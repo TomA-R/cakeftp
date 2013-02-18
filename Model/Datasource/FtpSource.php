@@ -275,7 +275,7 @@ class FtpSource extends DataSource {
 			if ($this->_ftp('ftp_delete', array($this->config['connection'], $file))) {
 				return true;
 			}
-		} elseif ($this->config['type'] == "ssh") {
+		} elseif ($this->config['type'] == 'ssh') {
 			if ($this->config['connection']->delete($file)) {
 				return true;
 			}
@@ -419,7 +419,7 @@ class FtpSource extends DataSource {
  */
 	public function quit() {
 		if (!empty($this->config['connection'])) {
-			if ($this->config['type'] == "ftp") {
+			if ($this->config['type'] == 'ftp') {
 				$this->_ftp('ftp_close', array($this->config['connection']));
 			}
 			$this->config['connection'] = null;
@@ -489,7 +489,7 @@ class FtpSource extends DataSource {
 			} elseif (preg_match("@([-dl][rwxst-]+).* ([0-9]+).* ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)@i", $line, $regs)) {
 				list($raw, $perm, $hrdlnks, $user, $group, $bytes, $date, $time, $time2, $filename) = $regs;
 				$date = date("m-d", strtotime($date));
-				if (strpos($time, ":") !== false) {
+				if (strpos($time, ':') !== false) {
 					$date = date('Y') . '-' . $date . " " . $time;
 				} else {
 					$date = $time . "-" . $date . " 00:00";

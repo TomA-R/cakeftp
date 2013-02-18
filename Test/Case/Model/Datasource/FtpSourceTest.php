@@ -147,9 +147,9 @@ END
 			}
 			if (\$method == 'ftp_rawlist') {
 				return array(
-					"drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp",
-					"drwxr-x---  15 kyle  group      4096 Nov  3 21:31 public_html",
-					"lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html",
+					'drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp',
+					'drwxr-x---  15 kyle  group      4096 Nov  3 21:31 public_html',
+					'lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html',
 				);
 			}
 			return true;
@@ -262,9 +262,9 @@ END
 	public function testParseLs() {
 		$this->FtpSource = new FtpTestSource($this->defaultConfig);
 		$in = array(
-			"drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp",
-			"lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html",
-			"-rwxr-x---  15 kyle  group      4096 Nov  3 21:31 test yes here.jpg",
+			'drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp',
+			'lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html',
+			'-rwxr-x---  15 kyle  group      4096 Nov  3 21:31 test yes here.jpg',
 		);
 		$result = $this->FtpSource->parsels($in, '/some/test/path/');
 

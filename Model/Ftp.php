@@ -47,5 +47,4 @@ class Ftp extends AppModel {
 		}
 		parent::__construct($id, $table, $ds);
 	}
-
 }

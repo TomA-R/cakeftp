@@ -16,10 +16,16 @@ class FtpSocketTest extends CakeTestCase {
  * @var array
  */
 	protected $_config = array(
-		'host'		=> 'ftp1.freebsd.org',
-		'username'	=> 'anonymous',
-		'password'	=> 'anonymous',
+		'host'		=> '192.168.2.172',
+		'username'	=> 'kenshoo',
+		'password'	=> 'hovercrafts',
 	);
+
+  protected $_badConfig = array(
+    'host'		=> '1.1.1.1000',
+    'username'	=> 'kenshoo',
+    'password'	=> 'hovercrafts',
+  );
 
 /**
  * setUp
@@ -64,10 +70,11 @@ class FtpSocketTest extends CakeTestCase {
 	}
 
 /**
- * testList
+ * testNoConnection
  */
-	public function testList() {
-		$result = $this->Ftp->login()->list();
-		// TODO: Write me
-	}
+  public function testNoConnection() {
+    $this->setExpectedException('SocketException');
+    $ftp = new FtpSocket($this->_badConfig);
+    $ftp->connect()->connected;
+  }
 }

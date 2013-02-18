@@ -28,9 +28,9 @@ class FtpTestSource extends FtpSource {
 				return '/some/test/path/';
 			case 'ftp_rawlist':
 				return array(
-					"drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp",
-					"drwxr-x---  15 kyle  group      4096 Nov  3 21:31 public_html",
-					"lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html",
+					'drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp',
+					'drwxr-x---  15 kyle  group      4096 Nov  3 21:31 public_html',
+					'lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html',
 				);
 		}
 		return true;
