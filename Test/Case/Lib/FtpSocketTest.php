@@ -16,15 +16,15 @@ class FtpSocketTest extends CakeTestCase {
  * @var array
  */
 	protected $_config = array(
-		'host'		=> '192.168.2.172',
-		'username'	=> 'kenshoo',
-		'password'	=> 'hovercrafts',
+		'host'		=> 'ftp1.freebsd.org',
+		'username'	=> 'anonymous',
+		'password'	=> 'anonymous',
 	);
 
   protected $_badConfig = array(
-    'host'		=> '1.1.1.1000',
-    'username'	=> 'kenshoo',
-    'password'	=> 'hovercrafts',
+    'host'		=> '1.1.1.1000', // Invalid IP
+    'username'	=> 'anonymous',
+    'password'	=> 'anonymous',
   );
 
 /**
