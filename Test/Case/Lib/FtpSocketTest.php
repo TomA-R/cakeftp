@@ -11,21 +11,26 @@ App::uses('FtpSocket', 'Ftp.Lib');
 class FtpSocketTest extends CakeTestCase {
 
 /**
- * Test config data
+ * Valid test config data
  *
  * @var array
  */
 	protected $_config = array(
-		'host'		=> 'ftp1.freebsd.org',
+		'host'		=> 'ftp.secureftp-test.com',
+		'username'	=> 'test',
+		'password'	=> 'test',
+	);
+
+/**
+ * Invalid test config data
+ *
+ * @var array
+ */
+	protected $_badConfig = array(
+		'host'		=> '1.1.1.1000', // Invalid IP
 		'username'	=> 'anonymous',
 		'password'	=> 'anonymous',
 	);
-
-  protected $_badConfig = array(
-    'host'		=> '1.1.1.1000', // Invalid IP
-    'username'	=> 'anonymous',
-    'password'	=> 'anonymous',
-  );
 
 /**
  * setUp
@@ -66,15 +71,15 @@ class FtpSocketTest extends CakeTestCase {
  */
 	public function testLogin() {
 		$result = $this->Ftp->login()->responses;
-		$this->assertContains('230', current($result));
+		$this->assertContains('220 Please visit http://sourceforge.net/projects/filezilla/', current($result));
 	}
 
 /**
  * testNoConnection
  */
-  public function testNoConnection() {
-    $this->setExpectedException('SocketException');
-    $ftp = new FtpSocket($this->_badConfig);
-    $ftp->connect()->connected;
-  }
+	public function testNoConnection() {
+		$this->setExpectedException('SocketException');
+		$ftp = new FtpSocket($this->_badConfig);
+		$ftp->connect()->connected;
+	}
 }

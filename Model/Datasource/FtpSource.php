@@ -110,9 +110,10 @@ class FtpSource extends DataSource {
  * read
  * Find files on remote server
  *
- * @param object $model
+ * @param Model $model
  * @param array $queryData
- * @return array
+ * @param null $recursive
+ * @return array|mixed
  * @throws Exception
  */
 	public function read(Model $model, $queryData = array(), $recursive = null) {
@@ -141,7 +142,7 @@ class FtpSource extends DataSource {
 						throw new Exception(__d('cakeftp', 'Folder does not exist'));
 					}
 					$path = $this->_ftp('ftp_pwd', array($this->config['connection']));
-					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], "-A .", $recursive));
+					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], '-A .', $recursive));
 					if (method_exists($model, 'parseFtpResults')) {
 						$out = $model->parseFtpResults($raw, $path, $this->config);
 					} else {
@@ -207,7 +208,7 @@ class FtpSource extends DataSource {
 		}
 		$data['direction'] = (!empty($data['direction'])) ? strtolower($data['direction']) : 'up';
 		$model->id = dirname($data['remote']);
-		if ($this->config['type'] == "ftp") {
+		if ($this->config['type'] == 'ftp') {
 			if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $model->id))) {
 				throw new Exception(__d('cakeftp', 'Could not change directory'));
 			}
@@ -229,7 +230,7 @@ class FtpSource extends DataSource {
 					$this->_ftp('unlink', array($data['local']));
 					throw new Exception(__d('cakeftp', 'Failed to download'));
 			}
-		} elseif ($this->config['type'] == "ssh") {
+		} elseif ($this->config['type'] == 'ssh') {
 			$this->config['connection']->chdir($model->id);
 			switch ($data['direction']) {
 				case 'up':
@@ -253,12 +254,26 @@ class FtpSource extends DataSource {
 	}
 
 /**
+ * update
+ * Upload/Download after find
+ *
+ * @param Model $model
+ * @param array|null $fields
+ * @param array|null $values
+ * @param array|null $conditions
+ * @return bool
+ */
+	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
+		return $this->create($model, $fields, $values);
+	}
+
+/**
  * delete
  * Deletes a remote file
  *
- * @param obj $model
- * @param str $file
- * @return bool
+ * @param Model $model
+ * @param string|null $file
+ * @return bool|void
  * @throws Exception
  */
 	public function delete(Model $model, $file = null) {
@@ -271,7 +286,7 @@ class FtpSource extends DataSource {
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
 		}
-		if ($this->config['type'] == "ftp") {
+		if ($this->config['type'] == 'ftp') {
 			if ($this->_ftp('ftp_delete', array($this->config['connection'], $file))) {
 				return true;
 			}
@@ -418,7 +433,7 @@ class FtpSource extends DataSource {
  * @return boolean
  */
 	public function quit() {
-		if (!empty($this->config['connection'])) {
+		if (isset($this->config['connection']) && $this->config['connection']) {
 			if ($this->config['type'] == 'ftp') {
 				$this->_ftp('ftp_close', array($this->config['connection']));
 			}
@@ -440,7 +455,7 @@ class FtpSource extends DataSource {
 		$out = array();
 		foreach ($rawlist as $file => $data) {
 			$out[] = array(
-				'path'		=> $path . DS,
+				'path'		=> $path . '/',
 				'filename'	=> $file,
 				'is_dir'	=> ($data['type'] === NET_SFTP_TYPE_DIRECTORY),
 				'is_link'	=> ($data['type'] === NET_SFTP_TYPE_SYMLINK),
@@ -488,11 +503,11 @@ class FtpSource extends DataSource {
 				list($raw, $perm, $hrdlnks, $user, $group, $bytes, $date, $filename) = $regs;
 			} elseif (preg_match("@([-dl][rwxst-]+).* ([0-9]+).* ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)@i", $line, $regs)) {
 				list($raw, $perm, $hrdlnks, $user, $group, $bytes, $date, $time, $time2, $filename) = $regs;
-				$date = date("m-d", strtotime($date));
+				$date = date('m-d', strtotime($date));
 				if (strpos($time, ':') !== false) {
-					$date = date('Y') . '-' . $date . " " . $time;
+					$date = date('Y') . '-' . $date . ' ' . $time;
 				} else {
-					$date = $time . "-" . $date . " 00:00";
+					$date = $time . '-' . $date . ' 00:00';
 				}
 			} else {
 				$regs = preg_split('@[\s]+@', $line);
